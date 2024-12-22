@@ -47,19 +47,19 @@ def decrypt(dataFile, privateKeyFile):
     # save the decrypted data to file
     dataFile = str(dataFile)
     
-    # Remove the '.L0v3sh3' suffix and keep the original extension (e.g., .pdf, .txt)
-    if dataFile.endswith('.L0v3sh3'):
-        fileName = dataFile[:-8]  # Remove the '.L0v3sh3' part (length of '.L0v3sh3' is 8)
+    # Remove the '.ransomware' suffix and keep the original extension (e.g., .pdf, .txt)
+    if dataFile.endswith('.ransomware'):
+        fileName = dataFile[:-10]  # Remove the '.ransomware' part (length of '.ransomware' is 8)
     else:
-        fileName = dataFile  # If the file doesn't have the '.L0v3sh3' extension, keep the name as is
+        fileName = dataFile  # If the file doesn't have the '.ransomware' extension, keep the name as is
 
     with open(fileName, 'wb') as f:
         f.write(data)
 
     print('Decrypted file saved to ' + fileName)
 
-    # Delete the original encrypted file with '.L0v3sh3' extension
-    if dataFile.endswith('.L0v3sh3'):
+    # Delete the original encrypted file with '.ransomware' extension
+    if dataFile.endswith('.ransomware'):
         os.remove(dataFile)  # Remove the encrypted file after decryption
         print(f"Deleted the encrypted file: {dataFile}")
 
@@ -75,14 +75,14 @@ directories_to_scan = [
     user_home / "Videos"
 ]
 
-# Focus on files with .L0v3sh3 extension for decryption
-includeExtension = ['.l0v3sh3']  # Make sure the extension is lowercase
+# Focus on files with .ransomware extension for decryption
+includeExtension = ['.ransomware']  # Make sure the extension is lowercase
 
 for directory in directories_to_scan:
     if directory.exists():  # Check if the directory exists
         for item in scanRecurse(directory):
             filePath = Path(item)
             fileType = filePath.suffix.lower()
-            # Run the decryptor only if the file has .L0v3sh3 extension
+            # Run the decryptor only if the file has .ransomware extension
             if fileType in includeExtension:
                 decrypt(filePath, privateKeyFile)
